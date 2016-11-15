@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8F4323F8-D61C-48BF-92B5-5F300D22539C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NRobot.Server.Test</RootNamespace>
+    <AssemblyName>NRobot.Server.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\build\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\build\NRobot.Server.Test.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CookComputing.XmlRpcV2, Version=2.5.0.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\xmlrpcnet.2.5.0\lib\net20\CookComputing.XmlRpcV2.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DomainTests\ClassAccessFixture.cs" />
+    <Compile Include="DomainTests\KeywordArgumentsFixture.cs" />
+    <Compile Include="DomainTests\KeywordDocumentationFixture.cs" />
+    <Compile Include="DomainTests\MethodAccessFixture.cs" />
+    <Compile Include="DomainTests\ParameterTypesFixture.cs" />
+    <Compile Include="DomainTests\ReturnTypesFixture.cs" />
+    <Compile Include="DomainTests\AssemblyLoadingFixture.cs" />
+    <Compile Include="DomainTests\RunKeywordFixture.cs" />
+    <Compile Include="Keywords\InternalClass.cs" />
+    <Compile Include="Keywords\RunKeyword.cs" />
+    <Compile Include="Keywords\StaticClass.cs" />
+    <Compile Include="Keywords\TestKeywords.cs" />
+    <Compile Include="Keywords\WithDocumentationClass.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceTests\MultipleThreadsFixture.cs" />
+    <Compile Include="ServiceTests\StartStopServiceFixture.cs" />
+    <Compile Include="ServiceTests\XmlRpcFixture.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NRobot.Server.Exceptions\NRobot.Server.Exceptions.csproj">
+      <Project>{9e46a153-4c5e-4f4f-9083-5e4569a21130}</Project>
+      <Name>NRobot.Server.Exceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NRobot.Server.Imp\NRobot.Server.Imp.csproj">
+      <Project>{1bd61a13-da09-477a-8a42-4072681df950}</Project>
+      <Name>NRobot.Server.Imp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

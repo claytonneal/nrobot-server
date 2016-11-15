@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <metadata>
+        <id>NRobotServer</id>
+        <version>1.0.0</version>
+        <authors>ClaytonNeal</authors>
+		<projectUrl>https://github.com/claytonneal/nrobot-server</projectUrl>
+		<iconUrl>http://code.google.com/p/nrobotremote/logo?cct=1374673462</iconUrl>
+        <description>.Net Robot Framework Integration</description>
+        <tags>robotframework robot framework test automation</tags>
+        <language>en-US</language>
+		<dependencies>
+			<group targetFramework="net46">
+				<dependency id="log4net" version="2.0.3" />
+				<dependency id="xmlrpcnet" version="2.5.0" />
+			</group>
+		</dependencies>
+	 </metadata>
+	<files>
+		<file src="build\NRobot.Server.Imp.dll" target="lib\net45"/>
+		<file src="build\NRobot.Server.Exceptions.dll" target="lib\net45"/>
+		<file src="build\NRobot.Server.exe" target="lib\net45" />
+		<file src="build\NRobot.Server.exe.config" target="lib\net45" />
+	</files>
+</package>
