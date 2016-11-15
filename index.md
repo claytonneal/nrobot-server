@@ -1,30 +1,29 @@
 # Introduction
 
-NRobotRemote is a .Net based Robot Framework remote server. It can be used to host and expose .Net keywords to Robot Framework, thus bringing the full capabilities of Robot Framework keyword based automation to .Net.
+NRobot Server is a .Net based Robot Framework remote server. It can be used to host and expose .Net keywords to Robot Framework, thus bringing the full capabilities of Robot Framework keyword based automation to .Net testers.
 
-# NuGet Package
+(Previously NRobot Server was known as NRobotRemote)
 
-[Click Here](https://www.nuget.org/packages/NRobotRemote/)
+# Installation
 
-# Release Notes
+NRobot Server can be downloaded from its NuGet package:
 
-| **Version** | **Date** | **Issues** |
-|:------------|:---------|:-----------|
-| 1.0.0       | 11-Jul-2013 | First Release |
-| 1.1.0       | 16-Jul-2013 | issue 4 |
-| 1.2.0       | 22-Jul-2013 | issue 8, issue 12, issue 13 |
-| 1.2.1       | 23-Jul-2013 | issue 14, issue 16, issue 17) |
-| 1.2.2       | 24-Jul-2013 | issue 19, issue 20], issue 21 |
-| 1.2.3       | 07-Aug-2013 | issue 22, issue 23, issue 25, issue 26 |
-| 1.2.4       | 12-Sep-2013 | issue 28 |
-| 1.2.5       | 16-Feb-2014 | issue 30 |
-| 1.2.6       | 18-Aug-2015 | upgrade to .net 4.5 |
+[Click Here](https://www.nuget.org/packages/NRobotServer)
 
-# How To Write a Keyword Library
+*Pre-requisites:*  
+- .Net framework 4.6.1
 
-Writing a keyword library is very simple.Create a new class library project in C#/Vb.net and add a _public_ class to the project. All public _instance_ or _static_ methods of the class with:
+# Concepts   
+   
+NRobot Server receives HTTP requests from robot framework using an xml-rpc protocol. To execute keywords, NRobot Service reflects on its loaded assemblies (set via configuration) to find a matching class method. It then executes that method with the parameters from the robot framework xml-rpc call, and then passes the result (HTTP response) of the method back to robot framework.
 
-  * Return type = void, String, Boolean, Int32, Int64, Double, String[[.md](.md)]
+NRobot Server is multi-threaded, there is one thread dedicated to to listening for HTTP xml-rpc requests from robot framework, and a new thread is created to execute keywords/methods. Because of this NRobot Server can be used with Pabot (see: https://github.com/mkorpela/pabot) when executing robot framework tests in parallel.
+
+# Writing a Keyword Library
+
+Writing a keyword library is very simple. Create a new class library project in C#/Vb.net and add a _public_ class to the project. All public _instance_ or _static_ methods of the class with:
+
+  * Return type = void, String, Boolean, Int32, Int64, Double, String
   * No parameters
   * All parameters of type String
 
@@ -70,11 +69,11 @@ The following keywords can be used by robot framework
 
 **Keyword Names**
 
-When a keyword such as "DO TASK" is used in a robot framework script, NRobotRemote will try to find a corresponding method with name "do\_task". i.e. Spaces are replaced with underscores.
+When a keyword such as "DO TASK" is used in a robot framework script, NRobot Server will try to find a corresponding method with name "do\_task". i.e. Spaces are replaced with underscores.
 
 **Documentation**
 
-If you compile your keyword class to produce xml documentation, the xml documentation file can be passed to NRobotRemote. When the keyword is executed the _summary_ xml element of the documentation for the executed method is passed back to robot framework and appears in the results file.
+If you compile your keyword class to produce xml documentation, the xml documentation file can be passed to NRobot Server. When the keyword is executed the _summary_ xml element of the documentation for the executed method is passed back to robot framework and appears in the results file.
 
 It is also possible to use the _libdoc_ tool from Robot Framework to document all the keywords hosted in NRobotRemote. See Robot Framework documentation on libdoc command line parameters.
 
@@ -103,7 +102,7 @@ AS of Robot Framework 2.8, a keyword can return continuable and fatal errors. To
   * ContinuableKeywordException
   * FatalKeywordException
 
-These exception types are defined in assembly NRobotRemote.Exceptions. This can be added as a reference in the keyword assembly.
+These exception types are defined in assembly NRobot.Server.Exceptions. This can be added as a reference in the keyword assembly.
 
 If a keyword throws any other type of exception it is treated as a normal error.
 
@@ -132,7 +131,7 @@ public class MyKeywordClass
 Yes, only one instance of the keyword class is created for the duration of the service.
 
 **How can my keyword give log information back to robot framework to include in the results file?**<br />
-All _Trace_ information is collected by NRobotRemote when the keyword method is executed. This is passed back to robot framework to include in the results report. Example:
+All _Trace_ information is collected by NRobot Server when the keyword method is executed. This is passed back to robot framework to include in the results report. Example:
 
 ```
 public class MyKeywordClass
@@ -152,7 +151,7 @@ A keyword method is considered as FAIL (and will be shown in the robot framework
 Yes, if a methods return parameter type is _string_ the method can return null. Nullable int, bool, double arent supported
 
 **Should I compile as x86, x64, or AnyCPU?**
-Compile to the same as the instance of NRobotRemote that will be used. If your keyword library is x64, you will need x64 NRobotRemote
+Compile to the same as the instance of NRobot Server that will be used. If your keyword library is x64, you will need x64 NRobotRemote
 
 **Is it possible to load keyword assemblies with conflicting dependencies?**
 Yes, each keyword assembly and its dependencies are loaded into a separate application domain.
@@ -161,84 +160,35 @@ Yes, each keyword assembly and its dependencies are loaded into a separate appli
 For _instance_ and _static_ methods to be considered as keywords, the keyword class needs a default parameter-less constructor. A constructor is not needed for _static_ methods to be considered as keywords.
 
 **Can I install my keyword library into the GAC?**
-Yes, NRobotRemote can load keyword assemblies from the GAC by specifying the full assembly details (Name, Culture, Version, PublicKey). For example using NRobotRemoteConsole to load System.IO.File class as a keyword library:
+Yes, NRobot Server can load keyword assemblies from the GAC by specifying the full assembly details (Name, Culture, Version, PublicKey). For example using NRobotRemoteConsole to load System.IO.File class as a keyword library:
 
 ```
 NRobotRemoteConsole.exe -k mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089:System.IO.File -p 8271
 ```
 
-# NRobotRemote Console
 
-**Config File**
+# NRobot Server
 
-The config file _NRobotRemoteConsole.exe.config_ is used for _log4net_ configuration. By default log information is written to the console and also to a _rolling_ log file called _NRobotRemoteConsole.log_. Additional appenders can be added, see Log4Net documentation.
-
-**Command Line**
-
-The following command line arguments are used:
-
-| -p | the port number |
-|:---|:----------------|
-| -k | specify the libraries, types, doc files to load. Multiple items in format _assembly:type:docfile_ where docfile is optional |
-
-**NOTE** The _type_ name should include the namespace.
-
-**Hosting Multiple Keyword Types**
-
-NRobotRemoteConsole can host multiple keyword types. These are exposed to robot framework XmlRpc at url:
-
-http://(host):(port)/(fulltypename)
-
-Where _fulltypename_ is the full type name of the keyword class (including namespace) with "." replaced by "/"
-
-**Example:**
-The following command line loads two keyword types from two different libraries:
-
-```
-NRobotRemoteConsole.exe -p 8271 -k UILibrary.dll:UILibrary.UIKeywords OracleLibrary.dll:OracleLibrary.OracleKeywords
-```
-
-The keywords are then exposed to robot framework at url's:
-
-  * http://localhost:8271/UILibrary/UIKeywords
-  * http://localhost:8271/OracleLibrary/OracleKeywords
-
-**Starting and Stopping**
-
-To start NRobotRemoteConsole.exe supply the above command line parameters. <br />
-To stop NRobotRemoteConsole.exe:
-
-  * Press Ctrl+C in the window
-  * Close the window
-  * Execute keyword "STOP REMOTE SERVER"
-  * Call XmlRpc method stop\_remote\_server
-
-**Monitoring**
-
-A remote _NRobotRemoteConsole_ can be checked to see if up and running by pointing a web browser to http://host:port. This will display information on the NRobotRemote instance, and the available keywords. This is also useful for example if NRobotRemote is started via Ant, the http condition can be used to wait for it to start.
-
-# NRobotRemotTray
-
-NRoboteRemoteTray is a desktop tray application that hosts the NRobotRemote Robot Framework remote server. It can be used as an alternative to NRobotRemoteConsole.
+NRobote Server exe is a desktop tray application that hosts the NRobot Server Robot Framework remote server.
 
 **Configuration**
 
-NRobotRemotTray is configured using the .config file _NRobotRemoteTray.exe.config_, in this file the _port_ number of the service, and the keyword assemblies, types and xml documentation files can be defined. An example is shown below:
+NRobot Server is configured using the .config file _NRobot.Server.exe.config_, in this file the _port_ number of the service, and the keyword assemblies, types and xml documentation files can be defined. An example is shown below:
 
 ```
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
 
 <configSections>
-<section name="NRobotRemoteConfiguration" type="NRobotRemote.Config.NRobotRemoteConfiguration, NRobotRemote.Config" />
+<section name="NRobotServerConfiguration" type="NRobot.Server.Config.NRobotServerConfiguration, NRobot.Server.Config" />
 </configSections>
-<NRobotRemoteConfiguration>
+<NRobotServerConfiguration>
 <port number="8271" />
 <assemblies>
-<add name="NRobotRemote.Test.Keywords" type="NRobotRemote.Test.Keywords.PublicClass" docfile="NRobotRemote.Test.Keywords.xml" />
-<add name="NRobotRemote.Test.Keywords" type="NRobotRemote.Test.Keywords.FirstClass" />
+<add name="NRobot.Server.Test.Keywords" type="NRobot.Server.Test.Keywords.PublicClass" docfile="NRobot.Server.Test.Keywords.xml" />
+<add name="NRobot.Server.Test.Keywords" type="NRobot.Server.Test.Keywords.FirstClass" />
 </assemblies>
-</NRobotRemoteConfiguration>
+</NRobotServerConfiguration>
 </configuration>
 ```
 
@@ -249,7 +199,7 @@ NRobotRemotTray is configured using the .config file _NRobotRemoteTray.exe.confi
 
 **Starting**
 
-To start NRobotRemoteTray double click on _NRobotRemoteTray.exe_, the application will start and the icon will be visible in the application tray (near the system clock on Windows 7).
+To start NRobot Server double click on _NRobot.Server.exe_, the application will start and the icon will be visible in the application tray (near the system clock on Windows 7).
 
 **Context Menu**
 
@@ -271,8 +221,8 @@ RIDE cannot directly interrogate a .Net keyword library to find what keywords ar
 
 A library spec file is created using the robot framework libdoc tool. To use this tool with NRobotRemote:
 
-  * Start NRobotRemote with your keyword library and xml documentation
-  * Execute libdoc pointing it to NRobotRemote host and port number, and create an xml file
+  * Start NRobot Server with your keyword library and xml documentation
+  * Execute libdoc pointing it to NRobot Server host and port number, and create an xml file
 
 **Example:**
 
@@ -284,24 +234,21 @@ java -jar robotframework-2.8.1.jar libdoc --name TestLib Remote::localhost:8271/
 
 Once the library spec xml file is created by _libdoc_ it has to be passed to RIDE. Details of this can be found [here](https://github.com/robotframework/RIDE/wiki/Keyword-Completion#wiki-using-library-specs)
 
-# Hosting NRobotRemote
+# Hosting NRobot Server 
 
-NRobotRemote is designed as an asynchronous component that can be hosted in any application. Infact NRobotRemoteConsole.exe is no more than a console host for the NRobotRemote component.
+NRobot Server is designed as an asynchronous component that can be hosted in any application. Infact NRobot.Server.exe is no more than a console host for the NRobot Server component.
 
-The following example shows how to start the NRobotRemote service.
+The following example shows how to start the NRobot service.
 
 ```
-RemoteService srv = new RemoteService(options.library,options.type,options.port,options.docfile);
-srv.StartAsync();
+var serviceConfig = NRobotServerConfig.LoadXmlConfiguration();
+var service = new NRobotService(_serviceConfig);
+service.StartAsync();
 Console.ReadLine();
-srv.Stop();
+service.Stop();
 ```
 
-_RemoteService_ also has a public event called _StopRequested_ this event is raised when keyword STOP REMOTE SERVER is called. The host application can determine if to close or not by handling this event. The event is called in a background thread.
+_NRobotService_ also has a public event called _StopRequested_ this event is raised when keyword STOP REMOTE SERVER is called. The host application can determine if to close or not by handling this event. The event is called in a background thread.
 
-**NOTES**
-
-  * The docfile parameter is optional
-  * Two background threads are started when _StartAsync_ is called, one thread to listen for HTTP requests, and the other to process HTTP requests.
 
 
