@@ -38,21 +38,21 @@ namespace NRobot.Server.Test.ServiceTests
                 {
                     Assembly = "NRobot.Server.Test",
                     TypeName = "NRobot.Server.Test.Keywords.TestKeywords",
-                    Documentation = "NRobot.Server.Test.XML"
+                    Documentation = "NRobot.Server.Test.xml"
                 });
             config.AssemblyConfigs.Add("NRobot.Server.Test.Keywords.WithDocumentationClass",
                 new LibraryConfig()
                 {
                     Assembly = "NRobot.Server.Test",
                     TypeName = "NRobot.Server.Test.Keywords.WithDocumentationClass",
-                    Documentation = "NRobot.Server.Test.XML"
+                    Documentation = "NRobot.Server.Test.xml"
                 });
             config.AssemblyConfigs.Add("NRobot.Server.Test.Keywords.RunKeyword",
                 new LibraryConfig()
                 {
                     Assembly = "NRobot.Server.Test",
                     TypeName = "NRobot.Server.Test.Keywords.RunKeyword",
-                    Documentation = "NRobot.Server.Test.XML"
+                    Documentation = "NRobot.Server.Test.xml"
                 });
             _service = new NRobotService(config);
             _service.StartAsync();

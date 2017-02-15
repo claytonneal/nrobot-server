@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace NRobot.Server.Test.DomainTests
 {
-    
+
     /// <summary>
     /// Tests that check the xml documentation on a keyword
     /// </summary>

@@ -24,7 +24,7 @@ namespace NRobot.Server.Test.DomainTests
             //config
             config.Assembly = "NRobot.Server.Test";
             config.TypeName = "NRobot.Server.Test.Keywords.TestKeywords";
-            config.Documentation = "NRobot.Server.Test.XML";
+            config.Documentation = "NRobot.Server.Test.xml";
             //load
             kwmanager.AddLibrary(config);
         }

@@ -32,11 +32,11 @@ namespace NRobot.Server.Test.ServiceTests
         {
             var config = new NRobotServerConfig();
             config.Port = 8270;
-            config.AssemblyConfigs.Add("NRobot.Server.Test.Keywords.TestKeywords", 
-                new LibraryConfig() 
-                { Assembly = "NRobot.Server.Test", 
-                    TypeName = "NRobot.Server.Test.Keywords.TestKeywords", 
-                    Documentation = "NRobot.Server.Test.XML" });
+            config.AssemblyConfigs.Add("NRobot.Server.Test.Keywords.TestKeywords",
+                new LibraryConfig()
+                { Assembly = "NRobot.Server.Test",
+                    TypeName = "NRobot.Server.Test.Keywords.TestKeywords",
+                    Documentation = "NRobot.Server.Test.xml" });
             _service = new NRobotService(config);
             _service.StartAsync();
         }
@@ -51,14 +51,14 @@ namespace NRobot.Server.Test.ServiceTests
                 {
                     Assembly = "NRobot.Server.Test",
                     TypeName = "NRobot.Server.Test.Keywords.TestKeywords",
-                    Documentation = "NRobot.Server.Test.XML"
+                    Documentation = "NRobot.Server.Test.xml"
                 });
             config.AssemblyConfigs.Add("NRobot.Server.Test.Keywords.RunKeyword",
                 new LibraryConfig()
                 {
                     Assembly = "NRobot.Server.Test",
                     TypeName = "NRobot.Server.Test.Keywords.RunKeyword",
-                    Documentation = "NRobot.Server.Test.XML"
+                    Documentation = "NRobot.Server.Test.xml"
                 });
             _service = new NRobotService(config);
             _service.StartAsync();
@@ -90,7 +90,7 @@ namespace NRobot.Server.Test.ServiceTests
                 {
                     Assembly = "NRobot.Server.TestUnknown",
                     TypeName = "NRobot.Server.Test.Keywords.TestKeywords",
-                    Documentation = "NRobot.Server.Test.XML"
+                    Documentation = "NRobot.Server.Test.xml"
                 });
             _service = new NRobotService(config);
             _service.StartAsync();
@@ -107,7 +107,7 @@ namespace NRobot.Server.Test.ServiceTests
                 {
                     Assembly = "NRobot.Server.Test",
                     TypeName = "NRobot.Server.Test.Keywords.TestKeywordsUnknown",
-                    Documentation = "NRobot.Server.Test.XML"
+                    Documentation = "NRobot.Server.Test.xml"
                 });
             _service = new NRobotService(config);
             _service.StartAsync();
