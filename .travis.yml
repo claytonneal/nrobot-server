@@ -1,8 +1,9 @@
 language: csharp
 solution: NRobot.sln
+sudo: required
 install:
   - nuget restore NRobot.sln
   - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
 script:
   - xbuild /p:Platform="Any CPU" /p:Configuration=Release NRobot.sln
-  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./build/NRobot.Server.Test.dll
+  - sudo mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./build/NRobot.Server.Test.dll
